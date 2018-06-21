@@ -1,0 +1,19 @@
+﻿<Settings>
+  <ConcurrentRunningVMs>3</ConcurrentRunningVMs>
+ <MDT>
+  <DeploymentShare>E:\DeploymentShare</DeploymentShare>
+  <RefTaskSequenceFolderName>REF</RefTaskSequenceFolderName>
+  <ValidateTaskSequenceFolderName>Validate</ValidateTaskSequenceFolderName>
+  <ValidateOSImageFolderName>Validate</ValidateOSImageFolderName>
+ </MDT>
+ <HyperV>
+  <StartUpRAM>2</StartUpRAM>
+  <VLANID>0</VLANID>
+  <Computername>LOCALHOST</Computername>
+  <SwitchName>MDTREFIMGLAN</SwitchName>
+  <VMLocation>E:\VMs</VMLocation>
+  <ISOLocation>E:\ISO</ISOLocation>
+  <VHDSize>80</VHDSize>
+  <NoCPU>2</NoCPU>
+ </HyperV>
+</Settings>
