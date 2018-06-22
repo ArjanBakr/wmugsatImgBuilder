@@ -25,8 +25,29 @@ $config = @{
 }
 #endregion
 
+#regionwsusmaintenance
+#Install ODBC driver 13 for SQL
+$MSI = (Join-Path -Path $SCRIPT_PARENT -ChildPath 'Source\msodbcsql.msi')
+msiexec /i $msi /qb- /norestart IACCEPTMSODBCSQLLICENSETERMS=YES
+
+#Install SQL command line utilities version 13
+$MSI = (Join-Path -Path $SCRIPT_PARENT -ChildPath 'Source\MsSqlCmdLnUtils.msi')
+msiexec /i $msi /qb- /norestart IACCEPTMSSQLCMDLNUTILSLICENSETERMS=YES
+
+#Copy WSUSMaintenance folder to local disk
+Copy-Item -Path (Join-Path -Path $SCRIPT_PARENT -ChildPath 'Source\WSUSMaintenance') -Destination $config.ricDrive -force -Recurse
+$wsusMaintanceScript = Join-Path -Path $config.ricDrive -ChildPath 'WSUSMaintenance\WSUSMaintenance.ps1'
+#Prepare WSUS Maintence script
+& $wsusMaintanceScript -FirstRun
+#Schedule WSUSMaintenance script
+& $wsusMaintanceScript -ScheduledRun
+#endregion
+
 
 #regiondownloadsoftware
+#Deleting two MDT config files before downloading the config
+Remove-Item -Path (Join-Path -Path $config.ricDrive -ChildPath "$($config.mdtDeploymentFolder)\Control\Applications.xml")
+Remove-Item -Path (Join-Path -Path $config.ricDrive -ChildPath "$($config.mdtDeploymentFolder)\Control\ApplicationGroups.xml")
 #Download all required software from Azure Storage Account
 $azureStorageAccountName = 'wmugsatstorage01'
 $azureStorageSourceFolder = 'Config'

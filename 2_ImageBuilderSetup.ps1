@@ -53,8 +53,8 @@ Set-VMHost -VirtualMachinePath $vmfolder -VirtualHardDiskPath (Join-Path -Path $
 
 #Create a new Hyper-V switch
 New-VMSwitch -SwitchName $config.hypervRefSwitchName -SwitchType Internal
+Start-Sleep -Seconds 5
 #Setting a fixed IP address to the new interface
-(Get-NetIPAddress -InterfaceIndex (Get-NetAdapter | Where-Object {$_.Name -match $config.hypervRefSwitchName}).ifIndex -AddressFamily IPv4).IPAddress
 New-NetIPAddress -IPAddress $config.hypervLANIP -PrefixLength 24 -InterfaceIndex (Get-NetAdapter | Where-Object {$_.Name -match $config.hypervRefSwitchName}).ifIndex
 #Checking the IP address
 (Get-NetIPAddress -InterfaceIndex (Get-NetAdapter | Where-Object {$_.Name -match $config.hypervRefSwitchName}).ifIndex -AddressFamily IPv4).IPAddress
@@ -333,11 +333,11 @@ if (!(Get-NetFirewallRule -Name 'mdt-dhcp-in-udp-public' -ErrorAction SilentlyCo
 #regionwsusmaintenance
 #Install ODBC driver 13 for SQL
 $MSI = (Join-Path -Path $SCRIPT_PARENT -ChildPath 'Source\msodbcsql.msi')
-msiexec /i $msi /qb- /norestart
+msiexec /i $msi /qb- /norestart IACCEPTMSODBCSQLLICENSETERMS=YES
 
 #Install SQL command line utilities version 13
 $MSI = (Join-Path -Path $SCRIPT_PARENT -ChildPath 'Source\MsSqlCmdLnUtils.msi')
-msiexec /i $msi /qb- /norestart
+msiexec /i $msi /qb- /norestart IACCEPTMSSQLCMDLNUTILSLICENSETERMS=YES
 
 #Copy WSUSMaintenance folder to local disk
 Copy-Item -Path (Join-Path -Path $SCRIPT_PARENT -ChildPath 'Source\WSUSMaintenance') -Destination $config.ricDrive -force -Recurse

@@ -42,6 +42,10 @@ $destinationFolder = Join-Path -Path $env:ProgramFiles -ChildPath 'WindowsPowerS
 Copy-Item -Path (join-path -Path $sourceFolder -ChildPath '*') -destination $destinationFolder -Force -Recurse
 #endregion
 
+#regionchangecdromdriveLetter
+Set-WmiInstance -InputObject ( Get-WmiObject -Class Win32_volume -Filter "DriveLetter = 'e:'" ) -Arguments @{DriveLetter='Z:'}
+#endregion
+
 
 #regiondatadisk
 #Check or create the presence of the E: disk with enough free space
