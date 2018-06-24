@@ -26,18 +26,6 @@ $config = @{
 #endregion
 
 #regionwsusmaintenance
-#Install ODBC driver 13 for SQL
-$MSI = (Join-Path -Path $SCRIPT_PARENT -ChildPath 'Source\msodbcsql.msi')
-msiexec /i $msi /qb- /norestart IACCEPTMSODBCSQLLICENSETERMS=YES
-
-#Install SQL command line utilities version 13
-$MSI = (Join-Path -Path $SCRIPT_PARENT -ChildPath 'Source\MsSqlCmdLnUtils.msi')
-msiexec /i $msi /qb- /norestart IACCEPTMSSQLCMDLNUTILSLICENSETERMS=YES
-
-#Copy WSUSMaintenance folder to local disk
-Copy-Item -Path (Join-Path -Path $SCRIPT_PARENT -ChildPath 'Source\WSUSMaintenance') -Destination $config.ricDrive -force -Recurse
-$wsusMaintanceScript = Join-Path -Path $config.ricDrive -ChildPath 'WSUSMaintenance\WSUSMaintenance.ps1'
-#Prepare WSUS Maintence script
 & $wsusMaintanceScript -FirstRun
 #Schedule WSUSMaintenance script
 & $wsusMaintanceScript -ScheduledRun
@@ -54,7 +42,7 @@ $azureStorageSourceFolder = 'Config'
 $AzureStorageSourceFolderVersion = '1.0.1'
 $AzureStorageFileShare = 'resources'
 $destination = $(Join-Path -Path $config.RicDrive -ChildPath $config.mdtDeploymentFolder)
-$saKey = '?sv=2017-11-09&ss=f&srt=sco&sp=rl&se=2018-06-23T17:00:00Z&st=2018-06-18T17:20:16Z&spr=https&sig=ajsTukvTNI2CFwZ143SuyozXTmI%2FTEiP3XFGN7Cgflg%3D'
+$saKey = '?sv=2017-11-09&ss=f&srt=sco&sp=rl&se=2018-07-31T17:13:49Z&st=2018-06-24T09:00:00Z&spr=https&sig=qUyvQCxosQy40Ie83DAKgj%2FeJAGu6HYNCaOUdO0UwfQ%3D'
 $storageContext = New-AzureStorageContext -StorageAccountName $azureStorageAccountName -SasToken $saKey
 
 Function Get-AzureFileStorageContent
@@ -111,8 +99,6 @@ Get-AzureFileStorageContent -Source "$($AzureStorageSourceFolder)/$($AzureStorag
 #regiondownloadvisualc++runtime
 $vcScriptPath = Join-Path -Path $SCRIPT_PARENT -ChildPath 'Get-AllVCRuntimes'
 & (Join-Path -Path $vcScriptPath -ChildPath 'Get-Downloads.ps1') -DownloadFile (Join-Path -Path $vcScriptPath -ChildPath 'download.xml') -DownloadFolder (Join-Path -Path $config.ricDrive -ChildPath "$($config.mdtDeploymentFolder)\Applications\InstallVCRuntime 1.00\Source")
-E:\Deploymentshare\Applications\InstallVCRuntime 1.00\Source
-
 
 #regioncreatebootimage
 Import-Module "E:\Program Files\Microsoft Deployment Toolkit\bin\MicrosoftDeploymentToolkit.psd1"

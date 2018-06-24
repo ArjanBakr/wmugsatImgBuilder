@@ -341,11 +341,7 @@ msiexec /i $msi /qb- /norestart IACCEPTMSSQLCMDLNUTILSLICENSETERMS=YES
 
 #Copy WSUSMaintenance folder to local disk
 Copy-Item -Path (Join-Path -Path $SCRIPT_PARENT -ChildPath 'Source\WSUSMaintenance') -Destination $config.ricDrive -force -Recurse
-$wsusMaintanceScript = Join-Path -Path $config.ricDrive -ChildPath 'WSUSMaintenance\WSUSMaintenance.ps1'
-#Prepare WSUS Maintence script
-& $wsusMaintanceScript -FirstRun
-#Schedule WSUSMaintenance script
-& $wsusMaintanceScript -ScheduledRun
+
 #endregion
 
 

@@ -28,7 +28,7 @@ $azureStorageSourceFolder = 'Setup'
 $AzureStorageSourceFolderVersion = '1.0.1'
 $AzureStorageFileShare = 'resources'
 $destination = $(Join-Path -Path $SCRIPT_PARENT -ChildPath 'Source')
-$saKey = '?sv=2017-11-09&ss=f&srt=sco&sp=rl&se=2018-06-23T17:00:00Z&st=2018-06-18T17:20:16Z&spr=https&sig=ajsTukvTNI2CFwZ143SuyozXTmI%2FTEiP3XFGN7Cgflg%3D'
+$saKey = '?sv=2017-11-09&ss=f&srt=sco&sp=rl&se=2018-07-31T17:13:49Z&st=2018-06-24T09:00:00Z&spr=https&sig=qUyvQCxosQy40Ie83DAKgj%2FeJAGu6HYNCaOUdO0UwfQ%3D'
 $storageContext = New-AzureStorageContext -StorageAccountName $azureStorageAccountName -SasToken $saKey
 $arrContent = Get-AzureStorageFile -ShareName $azureStorageFileShare -Path "$($azureStorageSourceFolder)/$($azureStorageSourceFolderVersion)" -Context $storageContext | Get-AzureStorageFile
 foreach ($item in $arrContent) {$item.DownloadToFile("$destination\$($item.Name)",1)}
