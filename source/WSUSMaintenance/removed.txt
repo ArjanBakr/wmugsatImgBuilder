@@ -1,0 +1,1 @@
+due to a new subscription model, the wsus maintenance script was removed
